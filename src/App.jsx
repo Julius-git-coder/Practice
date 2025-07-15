@@ -1,16 +1,20 @@
 // App.jsx
 import React from "react";
 import { useStore } from "./store/useStore";
-
+import { motion } from "framer-motion";
 const App = () => {
-  const { users, name, edit, setName, addUser, toDelete, editer, clearAll } =
+  const { users, name, edit, setName, addUsers, toDelete, editer, clearAll } =
     useStore();
+const variants = {
+  initial: { opacity: 0, y: 50 },
+  animate: { opacity: 1, y: 0 },
+};
 
   return (
     <div className="flex justify-center mt-10">
       <div className="w-[30rem] border p-5">
         <h1 className="font-black text-center text-xl mb-4">
-          {edit !== null ? "Updating" : "CRUD"}
+          {edit ? "Updating" : "CRUD"}
         </h1>
 
         <div className="flex mb-4">
@@ -22,18 +26,24 @@ const App = () => {
             className="border w-full text-center p-1"
           />
           <button
-            onClick={addUser}
+            onClick={addUsers}
             className={`ml-2 ${
               edit !== null ? "bg-green-500" : "bg-blue-500"
             } text-white px-3 rounded`}
           >
-            {edit !== null ? "Save" : "Add"}
+            {edit ? "Save" : "Add"}
           </button>
         </div>
 
         <ul className="space-y-2">
           {users.map((user, i) => (
-            <li key={i} className="flex justify-between items-center">
+            <motion.li
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              key={i}
+              className="flex justify-between items-center"
+            >
               <h1>{user}</h1>
               <div>
                 <button
@@ -46,7 +56,7 @@ const App = () => {
                   Delete
                 </button>
               </div>
-            </li>
+            </motion.li>
           ))}
         </ul>
 

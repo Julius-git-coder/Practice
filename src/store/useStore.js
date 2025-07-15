@@ -5,17 +5,17 @@ export const useStore = create((set) => ({
   name: "",
   edit: null,
   setName: (name) => set({ name }),
-  addUser: () =>
-    set((s) =>s.name.trim()? {users:
-              s.edit !== null
-                ? s.users.map((u, i) => (i === s.edit ? s.name : u))
-                : [...s.users, s.name],
-            name: "",
-            edit: null,
-          }
-        : {}
-    ),
-  toDelete: (i) => set((s) => ({ users: s.users.filter((_, x) => x !== i) })),
-  editer: (i) => set((s) => ({ name: s.users[i], edit: i })),
+ addUsers:()=>set((state)=>{
+const name = state.name.trim();
+ if(!name) return{};
+ const users= state.edit !==null
+? state.users.map((u,i)=>i ===state.edit ? name:u)
+:[...state.users,name]
+ 
+ return {name:'',edit:null,users}
+}),
+  toDelete: (i) =>
+    set((state) => ({ users: state.users.filter((_, x) => x !== i) })),
+  editer: (i) => set((state) => ({ name: state.users[i], edit: i })),
   clearAll: () => set({ users: [], name: "", edit: null }),
-}));
+}))
